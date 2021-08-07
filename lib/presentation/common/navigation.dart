@@ -69,7 +69,6 @@ abstract class BaseVM<State> extends Stream<State> {
   }
 
   Stream<State> get _stream async* {
-    yield state;
     yield* controller.stream;
   }
 }

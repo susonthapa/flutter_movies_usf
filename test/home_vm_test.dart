@@ -1,6 +1,7 @@
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:movies_usf/di/movies_repository.dart';
+import 'package:movies_usf/domain/content_status.dart';
 import 'package:movies_usf/domain/lce.dart';
 import 'package:movies_usf/domain/movie.dart';
 import 'package:movies_usf/presentation/home/home_vm.dart';
@@ -14,9 +15,10 @@ import 'test_utils.dart';
 
 @GenerateMocks([MoviesRepository])
 void main() {
-  var isSuccess = true;
-  final repo = MockMoviesRepository();
-  final vm = HomeViewModel(repo);
+  late bool isSuccess;
+  var repo = MockMoviesRepository();
+  late HomeViewModel vm;
+  late TestStream tester;
   final movies = [
     Movie(
       id: '221',
@@ -48,41 +50,50 @@ void main() {
     ),
   ];
 
-  // mock data
-  when(repo.getMoviesFromServer(any)).thenAnswer((realInvocation) {
-    if (isSuccess) {
-      return Stream.value(Lce.content(movies)).startWith(Lce.loading());
-    } else {
-      return Stream<Lce<List<Movie>>>.value(Lce.error('something went wrong'))
-          .startWith(Lce.loading());
-    }
-  });
+  group('home vm tests', () {
+    setUp(() {
+      isSuccess = true;
+      vm = HomeViewModel(repo);
+      tester = TestStream(vm);
+    });
 
-  test('when movie searched and found then show result', () async {
-    expect(vm, emitsItemCount(2));
-    expect(
-        vm,
-        emitsItem<HomeState>(
-            (s) => equals(s.searchResult).matches(movies, {})));
-    vm.searchMovie('blase');
-  });
+    tearDown(() {
+      vm.dispose();
+    });
 
-  test('when movie is searched and query is empty then no search', () async {
-    expect(vm, emitsItemCount(0));
-    vm.searchMovie("");
-  });
+    // mock data
+    when(repo.getMoviesFromServer(any)).thenAnswer((realInvocation) {
+      if (isSuccess) {
+        return Stream.value(Lce.content(movies)).startWith(Lce.loading());
+      } else {
+        return Stream<Lce<List<Movie>>>.value(Lce.error('something went wrong'))
+            .startWith(Lce.loading());
+      }
+    });
 
-  test('when move is searched and api error then show error', () async {
-    isSuccess = false;
-    vm.emitsItemAt(1, (s) => equalsValue(s.contentStatus, Lce.error()));
-    vm.searchMovie('query');
-    // expect(
-    //     vm,
-    //     emitsItemAt<HomeState>(
-    //       1,
-    //       (s) => equals(s.contentStatus).matches(Lce.error(), {}),
-    //     ));
-    // expect(vm, emitsItemCount(1));
-    // tester.emitsItemCount(4);
+    vmTest('when movie searched and found then show result', () {
+      vm.searchMovie('blase');
+      tester.emitsItemCount(2);
+      tester.emitsInOrder([
+        (s) => equalsValue(ContentStatus.loading, s.contentStatus),
+        (s) => equalsValue(movies, s.searchResult),
+      ]);
+    });
+
+    vmTest('when movie is searched and query is empty then no search', () {
+      vm.searchMovie('');
+      tester.emitsItemCount(0);
+    });
+
+    vmTest('when move is searched and api error then show error', () {
+      isSuccess = false;
+      vm.searchMovie('query');
+      tester.emitsItemCount(2);
+      tester.emitsInOrder([
+        (s) => equalsValue(ContentStatus.loading, s.contentStatus),
+        (s) => equalsValue(
+            ContentStatus.error('something went wrong'), s.contentStatus),
+      ]);
+    });
   });
 }
