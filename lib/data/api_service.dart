@@ -10,7 +10,7 @@ abstract class ApiService {
 
   @GET('/')
   Stream<SearchResponse> getMovies(
-    @Query('') String name,
+    @Query('s') String name,
     @Query('apiKey') String apiKey,
   );
 }

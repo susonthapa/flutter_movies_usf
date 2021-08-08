@@ -18,30 +18,19 @@ import 'package:rxdart/rxdart.dart';
 //   );
 // }
 
-abstract class BaseVM<State> extends Stream<State> {
+abstract class BaseVM<State> extends ChangeNotifier {
   State _state;
 
   State get state => _state;
 
   BaseVM(this._state);
 
-  final controller = StreamController<State>.broadcast();
-
   final bag = CompositeSubscription();
 
   void setState(State Function(State) updater) {
-    final newState = updater(_state);
-    if (newState == _state || controller.isClosed) {
-      Fimber.w(
-        'failed to update state, oldState => $_state, newState => $newState,'
-        ' streamIsClosed: ${controller.isClosed}',
-      );
-      return;
-    }
-    _state = newState;
+    _state = updater(_state);
     Fimber.d("notify => state: $_state");
-    print('notify => state: $_state');
-    controller.add(_state);
+    notifyListeners();
   }
 
   void setStateOnly(State Function(State) updater) {
@@ -49,26 +38,12 @@ abstract class BaseVM<State> extends Stream<State> {
     Fimber.d("state: $_state");
   }
 
-  @override
-  StreamSubscription<State> listen(void Function(State event)? onData,
-      {Function? onError, void Function()? onDone, bool? cancelOnError}) {
-    return _stream.listen(
-      onData,
-      onError: onError,
-      onDone: onDone,
-      cancelOnError: cancelOnError,
-    );
-  }
-
   void resetEffects();
 
+  @override
   void dispose() {
-    Fimber.i("dispose VM");
-    controller.close();
     bag.clear();
-  }
-
-  Stream<State> get _stream async* {
-    yield* controller.stream;
+    super.dispose();
+    Fimber.i("dispose VM");
   }
 }

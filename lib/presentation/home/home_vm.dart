@@ -3,11 +3,10 @@ import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:movies_usf/di/movies_repository.dart';
+import 'package:movies_usf/data/movies_repository.dart';
 import 'package:movies_usf/domain/content_status.dart';
 import 'package:movies_usf/domain/movie.dart';
 import 'package:movies_usf/presentation/common/navigation.dart';
-import 'package:rxdart/rxdart.dart';
 
 part 'home_vm.freezed.dart';
 
@@ -15,7 +14,9 @@ part 'home_vm.freezed.dart';
 class HomeViewModel extends BaseVM<HomeState> {
   final MoviesRepository repo;
 
-  HomeViewModel(this.repo) : super(HomeState());
+  HomeViewModel(this.repo) : super(HomeState()) {
+    setState((s) => HomeState());
+  }
 
   void searchMovie(String query) {
     if (query.isEmpty) {

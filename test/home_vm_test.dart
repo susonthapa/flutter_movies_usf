@@ -1,6 +1,6 @@
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:movies_usf/di/movies_repository.dart';
+import 'package:movies_usf/data/movies_repository.dart';
 import 'package:movies_usf/domain/content_status.dart';
 import 'package:movies_usf/domain/lce.dart';
 import 'package:movies_usf/domain/movie.dart';
@@ -10,6 +10,7 @@ import 'package:test/test.dart';
 import 'home_vm_test.mocks.dart';
 import 'package:rxdart/rxdart.dart';
 
+import 'test_change_provider.dart';
 import 'test_stream.dart';
 import 'test_utils.dart';
 
@@ -18,7 +19,7 @@ void main() {
   late bool isSuccess;
   var repo = MockMoviesRepository();
   late HomeViewModel vm;
-  late TestStream tester;
+  late TestChangeProvider tester;
   final movies = [
     Movie(
       id: '221',
@@ -54,7 +55,7 @@ void main() {
     setUp(() {
       isSuccess = true;
       vm = HomeViewModel(repo);
-      tester = TestStream(vm);
+      tester = TestChangeProvider(vm);
     });
 
     tearDown(() {

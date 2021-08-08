@@ -6,6 +6,7 @@ import 'package:movies_usf/data/search_response.dart';
 import 'package:movies_usf/domain/lce.dart';
 import 'package:movies_usf/domain/movie.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 @singleton
 class MoviesRepository {
@@ -14,7 +15,9 @@ class MoviesRepository {
   MoviesRepository(this.api);
 
   Stream<Lce<List<Movie>>> getMoviesFromServer(String query) {
-    return api.getMovies(query, "").map<Lce<List<Movie>>>((response) {
+    return api
+        .getMovies(query, dotenv.env['API_KEY'] ?? '',)
+        .map<Lce<List<Movie>>>((response) {
       if (response.response == "True") {
         final movies = _convertSearchResponse(response.movies);
         return Lce.content(movies);

@@ -21,9 +21,9 @@ class _$SearchResponseTearOff {
   const _$SearchResponseTearOff();
 
   _SearchResponse call(
-      {required String response,
-      required List<_Search> movies,
-      required String error}) {
+      {@JsonKey(name: 'Response') required String response,
+      @JsonKey(name: 'Search') required List<_Search> movies,
+      @JsonKey(name: 'Error') String? error}) {
     return _SearchResponse(
       response: response,
       movies: movies,
@@ -41,9 +41,12 @@ const $SearchResponse = _$SearchResponseTearOff();
 
 /// @nodoc
 mixin _$SearchResponse {
+  @JsonKey(name: 'Response')
   String get response => throw _privateConstructorUsedError;
+  @JsonKey(name: 'Search')
   List<_Search> get movies => throw _privateConstructorUsedError;
-  String get error => throw _privateConstructorUsedError;
+  @JsonKey(name: 'Error')
+  String? get error => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -56,7 +59,10 @@ abstract class $SearchResponseCopyWith<$Res> {
   factory $SearchResponseCopyWith(
           SearchResponse value, $Res Function(SearchResponse) then) =
       _$SearchResponseCopyWithImpl<$Res>;
-  $Res call({String response, List<_Search> movies, String error});
+  $Res call(
+      {@JsonKey(name: 'Response') String response,
+      @JsonKey(name: 'Search') List<_Search> movies,
+      @JsonKey(name: 'Error') String? error});
 }
 
 /// @nodoc
@@ -86,7 +92,7 @@ class _$SearchResponseCopyWithImpl<$Res>
       error: error == freezed
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -98,7 +104,10 @@ abstract class _$SearchResponseCopyWith<$Res>
           _SearchResponse value, $Res Function(_SearchResponse) then) =
       __$SearchResponseCopyWithImpl<$Res>;
   @override
-  $Res call({String response, List<_Search> movies, String error});
+  $Res call(
+      {@JsonKey(name: 'Response') String response,
+      @JsonKey(name: 'Search') List<_Search> movies,
+      @JsonKey(name: 'Error') String? error});
 }
 
 /// @nodoc
@@ -130,7 +139,7 @@ class __$SearchResponseCopyWithImpl<$Res>
       error: error == freezed
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -141,17 +150,22 @@ class _$_SearchResponse
     with DiagnosticableTreeMixin
     implements _SearchResponse {
   _$_SearchResponse(
-      {required this.response, required this.movies, required this.error});
+      {@JsonKey(name: 'Response') required this.response,
+      @JsonKey(name: 'Search') required this.movies,
+      @JsonKey(name: 'Error') this.error});
 
   factory _$_SearchResponse.fromJson(Map<String, dynamic> json) =>
       _$_$_SearchResponseFromJson(json);
 
   @override
+  @JsonKey(name: 'Response')
   final String response;
   @override
+  @JsonKey(name: 'Search')
   final List<_Search> movies;
   @override
-  final String error;
+  @JsonKey(name: 'Error')
+  final String? error;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -201,19 +215,22 @@ class _$_SearchResponse
 
 abstract class _SearchResponse implements SearchResponse {
   factory _SearchResponse(
-      {required String response,
-      required List<_Search> movies,
-      required String error}) = _$_SearchResponse;
+      {@JsonKey(name: 'Response') required String response,
+      @JsonKey(name: 'Search') required List<_Search> movies,
+      @JsonKey(name: 'Error') String? error}) = _$_SearchResponse;
 
   factory _SearchResponse.fromJson(Map<String, dynamic> json) =
       _$_SearchResponse.fromJson;
 
   @override
+  @JsonKey(name: 'Response')
   String get response => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: 'Search')
   List<_Search> get movies => throw _privateConstructorUsedError;
   @override
-  String get error => throw _privateConstructorUsedError;
+  @JsonKey(name: 'Error')
+  String? get error => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$SearchResponseCopyWith<_SearchResponse> get copyWith =>
@@ -229,11 +246,11 @@ class _$SearchTearOff {
   const _$SearchTearOff();
 
   _Search call(
-      {required String id,
-      required String title,
-      required String year,
-      required String type,
-      required String image}) {
+      {@JsonKey(name: 'imdbID') required String id,
+      @JsonKey(name: 'Title') required String title,
+      @JsonKey(name: 'Year') required String year,
+      @JsonKey(name: 'Type') required String type,
+      @JsonKey(name: 'Poster') required String image}) {
     return _Search(
       id: id,
       title: title,
@@ -253,10 +270,15 @@ const $Search = _$SearchTearOff();
 
 /// @nodoc
 mixin _$Search {
+  @JsonKey(name: 'imdbID')
   String get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'Title')
   String get title => throw _privateConstructorUsedError;
+  @JsonKey(name: 'Year')
   String get year => throw _privateConstructorUsedError;
+  @JsonKey(name: 'Type')
   String get type => throw _privateConstructorUsedError;
+  @JsonKey(name: 'Poster')
   String get image => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -268,7 +290,12 @@ mixin _$Search {
 abstract class $SearchCopyWith<$Res> {
   factory $SearchCopyWith(Search value, $Res Function(Search) then) =
       _$SearchCopyWithImpl<$Res>;
-  $Res call({String id, String title, String year, String type, String image});
+  $Res call(
+      {@JsonKey(name: 'imdbID') String id,
+      @JsonKey(name: 'Title') String title,
+      @JsonKey(name: 'Year') String year,
+      @JsonKey(name: 'Type') String type,
+      @JsonKey(name: 'Poster') String image});
 }
 
 /// @nodoc
@@ -317,7 +344,12 @@ abstract class _$SearchCopyWith<$Res> implements $SearchCopyWith<$Res> {
   factory _$SearchCopyWith(_Search value, $Res Function(_Search) then) =
       __$SearchCopyWithImpl<$Res>;
   @override
-  $Res call({String id, String title, String year, String type, String image});
+  $Res call(
+      {@JsonKey(name: 'imdbID') String id,
+      @JsonKey(name: 'Title') String title,
+      @JsonKey(name: 'Year') String year,
+      @JsonKey(name: 'Type') String type,
+      @JsonKey(name: 'Poster') String image});
 }
 
 /// @nodoc
@@ -366,24 +398,29 @@ class __$SearchCopyWithImpl<$Res> extends _$SearchCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Search with DiagnosticableTreeMixin implements _Search {
   _$_Search(
-      {required this.id,
-      required this.title,
-      required this.year,
-      required this.type,
-      required this.image});
+      {@JsonKey(name: 'imdbID') required this.id,
+      @JsonKey(name: 'Title') required this.title,
+      @JsonKey(name: 'Year') required this.year,
+      @JsonKey(name: 'Type') required this.type,
+      @JsonKey(name: 'Poster') required this.image});
 
   factory _$_Search.fromJson(Map<String, dynamic> json) =>
       _$_$_SearchFromJson(json);
 
   @override
+  @JsonKey(name: 'imdbID')
   final String id;
   @override
+  @JsonKey(name: 'Title')
   final String title;
   @override
+  @JsonKey(name: 'Year')
   final String year;
   @override
+  @JsonKey(name: 'Type')
   final String type;
   @override
+  @JsonKey(name: 'Poster')
   final String image;
 
   @override
@@ -441,23 +478,28 @@ class _$_Search with DiagnosticableTreeMixin implements _Search {
 
 abstract class _Search implements Search {
   factory _Search(
-      {required String id,
-      required String title,
-      required String year,
-      required String type,
-      required String image}) = _$_Search;
+      {@JsonKey(name: 'imdbID') required String id,
+      @JsonKey(name: 'Title') required String title,
+      @JsonKey(name: 'Year') required String year,
+      @JsonKey(name: 'Type') required String type,
+      @JsonKey(name: 'Poster') required String image}) = _$_Search;
 
   factory _Search.fromJson(Map<String, dynamic> json) = _$_Search.fromJson;
 
   @override
+  @JsonKey(name: 'imdbID')
   String get id => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: 'Title')
   String get title => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: 'Year')
   String get year => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: 'Type')
   String get type => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: 'Poster')
   String get image => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)

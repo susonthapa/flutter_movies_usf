@@ -1,6 +1,7 @@
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:movies_usf/di/injection.dart';
 import 'package:movies_usf/presentation/home/home_page.dart';
@@ -13,6 +14,7 @@ Future<void> main() async {
   }
 
   configureDependencies();
+  await dotenv.load(fileName: '.env');
   runApp(
     ProviderScope(
       child: MyApp(),

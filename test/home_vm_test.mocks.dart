@@ -6,7 +6,7 @@ import 'dart:async' as _i4;
 
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:movies_usf/data/api_service.dart' as _i2;
-import 'package:movies_usf/di/movies_repository.dart' as _i3;
+import 'package:movies_usf/data/movies_repository.dart' as _i3;
 import 'package:movies_usf/domain/lce.dart' as _i5;
 import 'package:movies_usf/domain/movie.dart' as _i6;
 

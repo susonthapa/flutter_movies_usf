@@ -16,7 +16,7 @@ class _ApiService implements ApiService {
   @override
   Stream<SearchResponse> getMovies(name, apiKey) async* {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'': name, r'apiKey': apiKey};
+    final queryParameters = <String, dynamic>{r's': name, r'apiKey': apiKey};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<SearchResponse>(
