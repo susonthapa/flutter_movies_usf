@@ -26,8 +26,10 @@ class HomeViewModel extends BaseVM<HomeState> {
       movies.when(
         loading: () =>
             setState((s) => s.copyWith(contentStatus: ContentStatus.loading)),
-        content: (content) =>
-            setState((s) => s.copyWith(searchResult: content)),
+        content: (content) => setState((s) => s.copyWith(
+              searchResult: content,
+              contentStatus: ContentStatus.loaded,
+            )),
         error: (error) => setState(
           (s) => s.copyWith(
               searchResult: [], contentStatus: ContentStatus.error(error)),

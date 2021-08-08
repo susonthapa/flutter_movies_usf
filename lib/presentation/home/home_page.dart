@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:movies_usf/di/injection.dart';
+import 'package:movies_usf/domain/content_status.dart';
 import 'package:movies_usf/domain/movie.dart';
 
 import 'home_vm.dart';
@@ -33,26 +34,41 @@ class HomePage extends HookWidget {
           final state = watch(_homeVMProvider).state;
           return Column(
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: searchController,
-                      decoration: InputDecoration(
-                        hintText: "Search movies",
+              Container(
+                padding: EdgeInsets.only(left: 16, right: 16, top: 16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: searchController,
+                        decoration: InputDecoration(
+                          hintText: "Search movies",
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 16,
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      _vm(context).searchMovie(searchController.text);
-                    },
-                    icon: Icon(Icons.search),
-                  ),
-                ],
+                    SizedBox(
+                      width: 16,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        _vm(context).searchMovie(searchController.text);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: CircleBorder(),
+                        padding: EdgeInsets.all(8),
+                      ),
+                      child: Icon(Icons.search),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 4,
+              ),
+              Visibility(
+                visible: state.contentStatus.status == DataStatus.loading,
+                child: LinearProgressIndicator(),
               ),
               SizedBox(
                 height: 8,
@@ -93,15 +109,21 @@ class MoviesItemWidget extends StatelessWidget {
           SizedBox(
             width: 16,
           ),
-          Column(
-            children: [
-              Text(movie.title),
-              Text(movie.type),
-              SizedBox(
-                height: 8,
-              ),
-              Text(movie.year),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(movie.title),
+                Text(movie.type),
+                SizedBox(
+                  height: 8,
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(movie.year),
+                ),
+              ],
+            ),
           ),
         ],
       ),
