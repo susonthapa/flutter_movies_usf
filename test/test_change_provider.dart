@@ -42,7 +42,6 @@ class TestChangeProvider<T> {
   }
 
   Future<void> emitsItemAt(int index, bool Function(T) matcher) async {
-    await Future<void>.delayed(Duration.zero);
     _checkNonZero();
     _checkRange(index);
 
@@ -53,7 +52,6 @@ class TestChangeProvider<T> {
   }
 
   Future<void> emitsStateAt(int index, T item) async {
-    await Future<void>.delayed(Duration.zero);
     _checkNonZero();
     _checkRange(index);
 
@@ -65,7 +63,6 @@ class TestChangeProvider<T> {
   }
 
   Future<void> emitsItemCount(int count) async {
-    await Future<void>.value();
     final s = values.length;
     if (s != count) {
       throw fail('Values count differ; expected: $count, but was $s');

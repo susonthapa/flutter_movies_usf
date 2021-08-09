@@ -5,20 +5,23 @@ import 'package:movies_usf/domain/content_status.dart';
 import 'package:movies_usf/domain/lce.dart';
 import 'package:movies_usf/domain/movie.dart';
 import 'package:movies_usf/presentation/home/home_vm.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:test/test.dart';
 
 import 'home_vm_test.mocks.dart';
-import 'package:rxdart/rxdart.dart';
-
 import 'test_change_provider.dart';
 import 'test_utils.dart';
+
+class Listener extends Mock {
+  void call(HomeState value);
+}
 
 @GenerateMocks([MoviesRepository])
 void main() {
   late bool isSuccess;
   var repo = MockMoviesRepository();
   late HomeViewModel vm;
-  late TestChangeProvider tester;
+  late TestChangeProvider<HomeState> tester;
   final movies = [
     Movie(
       id: '221',
@@ -28,7 +31,7 @@ void main() {
       image: 'image.png',
     ),
     Movie(
-      id: '221',
+      id: '222',
       title: 'Blase',
       year: '2019',
       type: 'Action',
@@ -71,8 +74,9 @@ void main() {
       }
     });
 
-    vmTest('when movie searched and found then show result', () {
+    vmTest('when movie searched and found then show result', () async {
       vm.searchMovie('blase');
+      await tester.wait();
       tester.emitsItemCount(2);
       tester.emitsInOrder([
         (s) => equalsValue(ContentStatus.loading, s.contentStatus),
@@ -80,14 +84,17 @@ void main() {
       ]);
     });
 
-    vmTest('when movie is searched and query is empty then no search', () {
+    vmTest('when movie is searched and query is empty then no search',
+        () async {
       vm.searchMovie('');
+      await Future<void>.value();
       tester.emitsItemCount(0);
     });
 
-    vmTest('when move is searched and api error then show error', () {
+    vmTest('when move is searched and api error then show error', () async {
       isSuccess = false;
       vm.searchMovie('query');
+      await tester.wait();
       tester.emitsItemCount(2);
       tester.emitsInOrder([
         (s) => equalsValue(ContentStatus.loading, s.contentStatus),
@@ -121,7 +128,12 @@ void main() {
       await tester.wait();
       vm.loadMovieDetails(0);
       tester.emitsItemCount(3);
-      tester.emitsItemAt(2, (s) => equalsValue(HomeNav.details, s.nav));
+      tester.emitsItemAt(
+        2,
+        (s) =>
+            equalsValue(HomeNav.details, s.nav.type) &&
+            equalsValue(movies[0], s.nav.args),
+      );
     });
   });
 }
