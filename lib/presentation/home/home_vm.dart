@@ -38,6 +38,19 @@ class HomeViewModel extends BaseVM<HomeState> {
     }));
   }
 
+  void addMovieToHistory(int position) {
+    final it = state;
+    var currentMovie = it.searchResult[position];
+    var isNotInHistory =
+        it.history.firstWhereOrNull((movie) => movie.id == currentMovie.id) ==
+            null;
+    if (isNotInHistory) {
+      final newHistory = List<Movie>.from(it.history);
+      newHistory.add(currentMovie);
+      setState((s) => s.copyWith(history: newHistory));
+    }
+  }
+
   @override
   void resetEffects() {}
 }
@@ -47,5 +60,6 @@ class HomeState with _$HomeState {
   factory HomeState({
     @Default([]) List<Movie> searchResult,
     @Default(ContentStatus.loaded) ContentStatus contentStatus,
+    @Default([]) List<Movie> history,
   }) = _HomeState;
 }

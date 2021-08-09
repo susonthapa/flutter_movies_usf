@@ -65,11 +65,15 @@ class TestChangeProvider<T> {
   }
 
   Future<void> emitsItemCount(int count) async {
-    await Future<void>.delayed(Duration.zero);
+    await Future<void>.value();
     final s = values.length;
     if (s != count) {
       throw fail('Values count differ; expected: $count, but was $s');
     }
+  }
+
+  Future<void> wait() async {
+    await Future<void>.value();
   }
 
   AssertionError fail(String message) {

@@ -11,7 +11,6 @@ import 'home_vm_test.mocks.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'test_change_provider.dart';
-import 'test_stream.dart';
 import 'test_utils.dart';
 
 @GenerateMocks([MoviesRepository])
@@ -95,6 +94,26 @@ void main() {
         (s) => equalsValue(
             ContentStatus.error('something went wrong'), s.contentStatus),
       ]);
+    });
+
+    vmTest('when add to history then update history', () async {
+      vm.searchMovie('query');
+      await tester.wait();
+      vm.addMovieToHistory(0);
+      tester.emitsItemCount(3);
+      tester.emitsItemAt(2, (s) => equalsValue(movies[0], s.history[0]));
+    });
+
+    vmTest('when add to history and movie already added then no history update',
+        () async {
+      vm.searchMovie('query');
+      await tester.wait();
+      vm.addMovieToHistory(0);
+      tester.emitsItemCount(3);
+      tester.emitsItemAt(2, (s) => equalsValue(movies[0], s.history[0]));
+      vm.addMovieToHistory(0);
+      // verify no new state is emitted
+      tester.emitsItemCount(3);
     });
   });
 }
