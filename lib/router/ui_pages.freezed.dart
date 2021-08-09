@@ -17,11 +17,15 @@ class _$PageConfigurationTearOff {
   const _$PageConfigurationTearOff();
 
   _PageConfiguration call(
-      {required String key, required String path, required Pages uiPage}) {
+      {required String key,
+      required String path,
+      required Pages uiPage,
+      Object? args}) {
     return _PageConfiguration(
       key: key,
       path: path,
       uiPage: uiPage,
+      args: args,
     );
   }
 }
@@ -34,6 +38,7 @@ mixin _$PageConfiguration {
   String get key => throw _privateConstructorUsedError;
   String get path => throw _privateConstructorUsedError;
   Pages get uiPage => throw _privateConstructorUsedError;
+  Object? get args => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PageConfigurationCopyWith<PageConfiguration> get copyWith =>
@@ -45,7 +50,7 @@ abstract class $PageConfigurationCopyWith<$Res> {
   factory $PageConfigurationCopyWith(
           PageConfiguration value, $Res Function(PageConfiguration) then) =
       _$PageConfigurationCopyWithImpl<$Res>;
-  $Res call({String key, String path, Pages uiPage});
+  $Res call({String key, String path, Pages uiPage, Object? args});
 }
 
 /// @nodoc
@@ -62,6 +67,7 @@ class _$PageConfigurationCopyWithImpl<$Res>
     Object? key = freezed,
     Object? path = freezed,
     Object? uiPage = freezed,
+    Object? args = freezed,
   }) {
     return _then(_value.copyWith(
       key: key == freezed
@@ -76,6 +82,7 @@ class _$PageConfigurationCopyWithImpl<$Res>
           ? _value.uiPage
           : uiPage // ignore: cast_nullable_to_non_nullable
               as Pages,
+      args: args == freezed ? _value.args : args,
     ));
   }
 }
@@ -87,7 +94,7 @@ abstract class _$PageConfigurationCopyWith<$Res>
           _PageConfiguration value, $Res Function(_PageConfiguration) then) =
       __$PageConfigurationCopyWithImpl<$Res>;
   @override
-  $Res call({String key, String path, Pages uiPage});
+  $Res call({String key, String path, Pages uiPage, Object? args});
 }
 
 /// @nodoc
@@ -106,6 +113,7 @@ class __$PageConfigurationCopyWithImpl<$Res>
     Object? key = freezed,
     Object? path = freezed,
     Object? uiPage = freezed,
+    Object? args = freezed,
   }) {
     return _then(_PageConfiguration(
       key: key == freezed
@@ -120,6 +128,7 @@ class __$PageConfigurationCopyWithImpl<$Res>
           ? _value.uiPage
           : uiPage // ignore: cast_nullable_to_non_nullable
               as Pages,
+      args: args == freezed ? _value.args : args,
     ));
   }
 }
@@ -130,7 +139,7 @@ class _$_PageConfiguration
     with DiagnosticableTreeMixin
     implements _PageConfiguration {
   const _$_PageConfiguration(
-      {required this.key, required this.path, required this.uiPage});
+      {required this.key, required this.path, required this.uiPage, this.args});
 
   @override
   final String key;
@@ -138,10 +147,12 @@ class _$_PageConfiguration
   final String path;
   @override
   final Pages uiPage;
+  @override
+  final Object? args;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'PageConfiguration(key: $key, path: $path, uiPage: $uiPage)';
+    return 'PageConfiguration(key: $key, path: $path, uiPage: $uiPage, args: $args)';
   }
 
   @override
@@ -151,7 +162,8 @@ class _$_PageConfiguration
       ..add(DiagnosticsProperty('type', 'PageConfiguration'))
       ..add(DiagnosticsProperty('key', key))
       ..add(DiagnosticsProperty('path', path))
-      ..add(DiagnosticsProperty('uiPage', uiPage));
+      ..add(DiagnosticsProperty('uiPage', uiPage))
+      ..add(DiagnosticsProperty('args', args));
   }
 
   @override
@@ -163,7 +175,9 @@ class _$_PageConfiguration
             (identical(other.path, path) ||
                 const DeepCollectionEquality().equals(other.path, path)) &&
             (identical(other.uiPage, uiPage) ||
-                const DeepCollectionEquality().equals(other.uiPage, uiPage)));
+                const DeepCollectionEquality().equals(other.uiPage, uiPage)) &&
+            (identical(other.args, args) ||
+                const DeepCollectionEquality().equals(other.args, args)));
   }
 
   @override
@@ -171,7 +185,8 @@ class _$_PageConfiguration
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(key) ^
       const DeepCollectionEquality().hash(path) ^
-      const DeepCollectionEquality().hash(uiPage);
+      const DeepCollectionEquality().hash(uiPage) ^
+      const DeepCollectionEquality().hash(args);
 
   @JsonKey(ignore: true)
   @override
@@ -183,7 +198,8 @@ abstract class _PageConfiguration implements PageConfiguration {
   const factory _PageConfiguration(
       {required String key,
       required String path,
-      required Pages uiPage}) = _$_PageConfiguration;
+      required Pages uiPage,
+      Object? args}) = _$_PageConfiguration;
 
   @override
   String get key => throw _privateConstructorUsedError;
@@ -191,6 +207,8 @@ abstract class _PageConfiguration implements PageConfiguration {
   String get path => throw _privateConstructorUsedError;
   @override
   Pages get uiPage => throw _privateConstructorUsedError;
+  @override
+  Object? get args => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$PageConfigurationCopyWith<_PageConfiguration> get copyWith =>

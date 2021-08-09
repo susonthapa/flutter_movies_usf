@@ -5,6 +5,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:movies_usf/di/injection.dart';
 import 'package:movies_usf/domain/content_status.dart';
 import 'package:movies_usf/domain/movie.dart';
+import 'package:movies_usf/presentation/common/navigation.dart';
+import 'package:movies_usf/router/router_vm.dart';
+import 'package:movies_usf/router/ui_pages.dart';
 
 import 'home_vm.dart';
 
@@ -42,73 +45,97 @@ class HomePage extends HookWidget {
       appBar: AppBar(
         title: Text('Movies USF'),
       ),
-      body: Consumer(
-        builder: (context, watch, child) {
-          final state = watch(_homeVMProvider).state;
-          return Column(
-            children: [
-              Container(
-                padding: EdgeInsets.only(left: 16, right: 16, top: 16),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: searchController,
-                        decoration: InputDecoration(
-                          hintText: "Search movies",
+      body: providerListenerAutoDispose<HomeViewModel>(
+        _homeVMProvider,
+        onChange: (context, vm) {
+          final routerVM = context.read(routerVMProvider.notifier);
+          if (vm.state.nav.type == HomeNav.details) {
+            routerVM.action = PageAction(
+              state: PageState.addPage,
+              page: DetailsPageConfig.copyWith(args: vm.state.nav.args),
+            );
+          }
+        },
+        child: Consumer(
+          builder: (context, watch, child) {
+            final state = watch(_homeVMProvider).state;
+            return Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(left: 16, right: 16, top: 16),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: searchController,
+                          decoration: InputDecoration(
+                            hintText: "Search movies",
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    roundButton(Icons.search, () {
-                      _vm(context).searchMovie(searchController.text);
-                    }),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Visibility(
-                visible: state.contentStatus.status == DataStatus.loading,
-                child: LinearProgressIndicator(),
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              Expanded(
-                child: ListView.builder(
-                  itemBuilder: (context, position) {
-                    return MoviesItemWidget(
-                      movie: state.searchResult[position],
-                      onPressed: () {
-                        _vm(context).addMovieToHistory(position);
-                      },
-                    );
-                  },
-                  itemCount: state.searchResult.length,
-                ),
-              ),
-              Visibility(
-                visible: state.history.length != 0,
-                child: SizedBox(
-                  height: 116,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, position) {
-                      return HistoryItemWidget(
-                          movie: state.history[position]);
-                    },
-                    itemCount: state.history.length,
+                      SizedBox(
+                        width: 16,
+                      ),
+                      roundButton(Icons.search, () {
+                        _vm(context).searchMovie(searchController.text);
+                      }),
+                    ],
                   ),
                 ),
-              ),
-            ],
-          );
-        },
+                SizedBox(
+                  height: 4,
+                ),
+                Visibility(
+                  visible: state.contentStatus.status == DataStatus.loading,
+                  child: LinearProgressIndicator(),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemBuilder: (context, position) {
+                      return InkWell(
+                        onTap: () {
+                          _vm(context).loadMovieDetails(position);
+                        },
+                        child: MoviesItemWidget(
+                          movie: state.searchResult[position],
+                          onPressed: () {
+                            _vm(context).addMovieToHistory(position);
+                          },
+                        ),
+                      );
+                    },
+                    itemCount: state.searchResult.length,
+                  ),
+                ),
+                Visibility(
+                  visible: state.history.length != 0,
+                  child: Column(
+                    children: [
+                      Divider(
+                        height: 1,
+                      ),
+                      SizedBox(
+                        height: 116,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, position) {
+                            return HistoryItemWidget(
+                                movie: state.history[position]);
+                          },
+                          itemCount: state.history.length,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

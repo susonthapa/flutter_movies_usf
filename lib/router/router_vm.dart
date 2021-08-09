@@ -6,7 +6,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:movies_usf/di/injection.dart';
+import 'package:movies_usf/domain/movie.dart';
 import 'package:movies_usf/presentation/common/navigation.dart';
+import 'package:movies_usf/presentation/details/details_page.dart';
 import 'package:movies_usf/presentation/home/home_page.dart';
 import 'package:movies_usf/router/ui_pages.dart';
 
@@ -193,6 +195,9 @@ class RouteHandler {
       switch (pageConfig.uiPage) {
         case Pages.HOME:
           return _createPage(HomePage(), pageConfig);
+        case Pages.MOVIE_DETAILS:
+          final args = pageConfig.args as Movie;
+          return _createPage(DetailsPage(movie: args), pageConfig);
         default:
           return null;
       }

@@ -53,12 +53,16 @@ class HomeViewModel extends BaseVM<HomeState> {
 
   void loadMovieDetails(int position) {
     final it = state;
-    setState((s) => s.copyWith(nav: HomeNav.details));
+    setState(
+      (s) => s.copyWith(
+        nav: HomeNavArgs(type: HomeNav.details, args: it.searchResult[position]),
+      ),
+    );
   }
 
   @override
   void resetEffects() {
-    setStateOnly((s) => s.copyWith(nav: HomeNav.none));
+    setStateOnly((s) => s.copyWith(nav: HomeNavArgs()));
   }
 }
 
@@ -68,8 +72,16 @@ class HomeState with _$HomeState {
     @Default([]) List<Movie> searchResult,
     @Default(ContentStatus.loaded) ContentStatus contentStatus,
     @Default([]) List<Movie> history,
-    @Default(HomeNav.none) HomeNav nav,
+    @Default(HomeNavArgs()) HomeNavArgs nav,
   }) = _HomeState;
+}
+
+@freezed
+class HomeNavArgs with _$HomeNavArgs {
+  const factory HomeNavArgs({
+    @Default(HomeNav.none) HomeNav type,
+    Object? args,
+  }) = _HomeNavArgs;
 }
 
 enum HomeNav { none, details }

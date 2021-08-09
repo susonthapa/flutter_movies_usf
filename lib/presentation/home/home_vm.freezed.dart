@@ -20,7 +20,7 @@ class _$HomeStateTearOff {
       {List<Movie> searchResult = const [],
       ContentStatus contentStatus = ContentStatus.loaded,
       List<Movie> history = const [],
-      HomeNav nav = HomeNav.none}) {
+      HomeNavArgs nav = const HomeNavArgs()}) {
     return _HomeState(
       searchResult: searchResult,
       contentStatus: contentStatus,
@@ -38,7 +38,7 @@ mixin _$HomeState {
   List<Movie> get searchResult => throw _privateConstructorUsedError;
   ContentStatus get contentStatus => throw _privateConstructorUsedError;
   List<Movie> get history => throw _privateConstructorUsedError;
-  HomeNav get nav => throw _privateConstructorUsedError;
+  HomeNavArgs get nav => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $HomeStateCopyWith<HomeState> get copyWith =>
@@ -53,9 +53,10 @@ abstract class $HomeStateCopyWith<$Res> {
       {List<Movie> searchResult,
       ContentStatus contentStatus,
       List<Movie> history,
-      HomeNav nav});
+      HomeNavArgs nav});
 
   $ContentStatusCopyWith<$Res> get contentStatus;
+  $HomeNavArgsCopyWith<$Res> get nav;
 }
 
 /// @nodoc
@@ -89,7 +90,7 @@ class _$HomeStateCopyWithImpl<$Res> implements $HomeStateCopyWith<$Res> {
       nav: nav == freezed
           ? _value.nav
           : nav // ignore: cast_nullable_to_non_nullable
-              as HomeNav,
+              as HomeNavArgs,
     ));
   }
 
@@ -97,6 +98,13 @@ class _$HomeStateCopyWithImpl<$Res> implements $HomeStateCopyWith<$Res> {
   $ContentStatusCopyWith<$Res> get contentStatus {
     return $ContentStatusCopyWith<$Res>(_value.contentStatus, (value) {
       return _then(_value.copyWith(contentStatus: value));
+    });
+  }
+
+  @override
+  $HomeNavArgsCopyWith<$Res> get nav {
+    return $HomeNavArgsCopyWith<$Res>(_value.nav, (value) {
+      return _then(_value.copyWith(nav: value));
     });
   }
 }
@@ -111,10 +119,12 @@ abstract class _$HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
       {List<Movie> searchResult,
       ContentStatus contentStatus,
       List<Movie> history,
-      HomeNav nav});
+      HomeNavArgs nav});
 
   @override
   $ContentStatusCopyWith<$Res> get contentStatus;
+  @override
+  $HomeNavArgsCopyWith<$Res> get nav;
 }
 
 /// @nodoc
@@ -149,7 +159,7 @@ class __$HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
       nav: nav == freezed
           ? _value.nav
           : nav // ignore: cast_nullable_to_non_nullable
-              as HomeNav,
+              as HomeNavArgs,
     ));
   }
 }
@@ -161,7 +171,7 @@ class _$_HomeState with DiagnosticableTreeMixin implements _HomeState {
       {this.searchResult = const [],
       this.contentStatus = ContentStatus.loaded,
       this.history = const [],
-      this.nav = HomeNav.none});
+      this.nav = const HomeNavArgs()});
 
   @JsonKey(defaultValue: const [])
   @override
@@ -172,9 +182,9 @@ class _$_HomeState with DiagnosticableTreeMixin implements _HomeState {
   @JsonKey(defaultValue: const [])
   @override
   final List<Movie> history;
-  @JsonKey(defaultValue: HomeNav.none)
+  @JsonKey(defaultValue: const HomeNavArgs())
   @override
-  final HomeNav nav;
+  final HomeNavArgs nav;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -228,7 +238,7 @@ abstract class _HomeState implements HomeState {
       {List<Movie> searchResult,
       ContentStatus contentStatus,
       List<Movie> history,
-      HomeNav nav}) = _$_HomeState;
+      HomeNavArgs nav}) = _$_HomeState;
 
   @override
   List<Movie> get searchResult => throw _privateConstructorUsedError;
@@ -237,9 +247,160 @@ abstract class _HomeState implements HomeState {
   @override
   List<Movie> get history => throw _privateConstructorUsedError;
   @override
-  HomeNav get nav => throw _privateConstructorUsedError;
+  HomeNavArgs get nav => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$HomeStateCopyWith<_HomeState> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+class _$HomeNavArgsTearOff {
+  const _$HomeNavArgsTearOff();
+
+  _HomeNavArgs call({HomeNav type = HomeNav.none, Object? args}) {
+    return _HomeNavArgs(
+      type: type,
+      args: args,
+    );
+  }
+}
+
+/// @nodoc
+const $HomeNavArgs = _$HomeNavArgsTearOff();
+
+/// @nodoc
+mixin _$HomeNavArgs {
+  HomeNav get type => throw _privateConstructorUsedError;
+  Object? get args => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $HomeNavArgsCopyWith<HomeNavArgs> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $HomeNavArgsCopyWith<$Res> {
+  factory $HomeNavArgsCopyWith(
+          HomeNavArgs value, $Res Function(HomeNavArgs) then) =
+      _$HomeNavArgsCopyWithImpl<$Res>;
+  $Res call({HomeNav type, Object? args});
+}
+
+/// @nodoc
+class _$HomeNavArgsCopyWithImpl<$Res> implements $HomeNavArgsCopyWith<$Res> {
+  _$HomeNavArgsCopyWithImpl(this._value, this._then);
+
+  final HomeNavArgs _value;
+  // ignore: unused_field
+  final $Res Function(HomeNavArgs) _then;
+
+  @override
+  $Res call({
+    Object? type = freezed,
+    Object? args = freezed,
+  }) {
+    return _then(_value.copyWith(
+      type: type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as HomeNav,
+      args: args == freezed ? _value.args : args,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$HomeNavArgsCopyWith<$Res>
+    implements $HomeNavArgsCopyWith<$Res> {
+  factory _$HomeNavArgsCopyWith(
+          _HomeNavArgs value, $Res Function(_HomeNavArgs) then) =
+      __$HomeNavArgsCopyWithImpl<$Res>;
+  @override
+  $Res call({HomeNav type, Object? args});
+}
+
+/// @nodoc
+class __$HomeNavArgsCopyWithImpl<$Res> extends _$HomeNavArgsCopyWithImpl<$Res>
+    implements _$HomeNavArgsCopyWith<$Res> {
+  __$HomeNavArgsCopyWithImpl(
+      _HomeNavArgs _value, $Res Function(_HomeNavArgs) _then)
+      : super(_value, (v) => _then(v as _HomeNavArgs));
+
+  @override
+  _HomeNavArgs get _value => super._value as _HomeNavArgs;
+
+  @override
+  $Res call({
+    Object? type = freezed,
+    Object? args = freezed,
+  }) {
+    return _then(_HomeNavArgs(
+      type: type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as HomeNav,
+      args: args == freezed ? _value.args : args,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_HomeNavArgs with DiagnosticableTreeMixin implements _HomeNavArgs {
+  const _$_HomeNavArgs({this.type = HomeNav.none, this.args});
+
+  @JsonKey(defaultValue: HomeNav.none)
+  @override
+  final HomeNav type;
+  @override
+  final Object? args;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'HomeNavArgs(type: $type, args: $args)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'HomeNavArgs'))
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('args', args));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _HomeNavArgs &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)) &&
+            (identical(other.args, args) ||
+                const DeepCollectionEquality().equals(other.args, args)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(type) ^
+      const DeepCollectionEquality().hash(args);
+
+  @JsonKey(ignore: true)
+  @override
+  _$HomeNavArgsCopyWith<_HomeNavArgs> get copyWith =>
+      __$HomeNavArgsCopyWithImpl<_HomeNavArgs>(this, _$identity);
+}
+
+abstract class _HomeNavArgs implements HomeNavArgs {
+  const factory _HomeNavArgs({HomeNav type, Object? args}) = _$_HomeNavArgs;
+
+  @override
+  HomeNav get type => throw _privateConstructorUsedError;
+  @override
+  Object? get args => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$HomeNavArgsCopyWith<_HomeNavArgs> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -20,6 +20,7 @@ class PageConfiguration with _$PageConfiguration {
     required String key,
     required String path,
     required Pages uiPage,
+    Object? args
   }) = _PageConfiguration;
 }
 
