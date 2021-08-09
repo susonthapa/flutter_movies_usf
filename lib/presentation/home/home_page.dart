@@ -17,6 +17,19 @@ final _homeVMProvider = ChangeNotifierProvider.autoDispose((ref) {
   return vm;
 });
 
+Widget roundButton(IconData icon, Function onPressed) {
+  return ElevatedButton(
+    onPressed: () {
+      onPressed();
+    },
+    style: ElevatedButton.styleFrom(
+      shape: CircleBorder(),
+      padding: EdgeInsets.all(8),
+    ),
+    child: Icon(icon),
+  );
+}
+
 class HomePage extends HookWidget {
   HomeViewModel _vm(BuildContext context) {
     return context.read(_homeVMProvider.notifier);
@@ -50,16 +63,9 @@ class HomePage extends HookWidget {
                     SizedBox(
                       width: 16,
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        _vm(context).searchMovie(searchController.text);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        shape: CircleBorder(),
-                        padding: EdgeInsets.all(8),
-                      ),
-                      child: Icon(Icons.search),
-                    ),
+                    roundButton(Icons.search, () {
+                      _vm(context).searchMovie(searchController.text);
+                    }),
                   ],
                 ),
               ),
@@ -77,9 +83,27 @@ class HomePage extends HookWidget {
                 child: ListView.builder(
                   itemBuilder: (context, position) {
                     return MoviesItemWidget(
-                        movie: state.searchResult[position]);
+                      movie: state.searchResult[position],
+                      onPressed: () {
+                        _vm(context).addMovieToHistory(position);
+                      },
+                    );
                   },
                   itemCount: state.searchResult.length,
+                ),
+              ),
+              Visibility(
+                visible: state.history.length != 0,
+                child: SizedBox(
+                  height: 116,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, position) {
+                      return HistoryItemWidget(
+                          movie: state.history[position]);
+                    },
+                    itemCount: state.history.length,
+                  ),
                 ),
               ),
             ],
@@ -90,10 +114,33 @@ class HomePage extends HookWidget {
   }
 }
 
-class MoviesItemWidget extends StatelessWidget {
+class HistoryItemWidget extends StatelessWidget {
   final Movie movie;
 
-  const MoviesItemWidget({Key? key, required this.movie}) : super(key: key);
+  const HistoryItemWidget({Key? key, required this.movie}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 108,
+      width: 108,
+      padding: EdgeInsets.all(8),
+      child: Image.network(
+        movie.image,
+      ),
+    );
+  }
+}
+
+class MoviesItemWidget extends StatelessWidget {
+  final Movie movie;
+  final Function onPressed;
+
+  const MoviesItemWidget({
+    Key? key,
+    required this.movie,
+    required this.onPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -124,6 +171,13 @@ class MoviesItemWidget extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+          SizedBox(
+            width: 8,
+          ),
+          roundButton(
+            Icons.add,
+            onPressed,
           ),
         ],
       ),

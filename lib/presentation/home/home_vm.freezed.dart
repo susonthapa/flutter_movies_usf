@@ -19,11 +19,13 @@ class _$HomeStateTearOff {
   _HomeState call(
       {List<Movie> searchResult = const [],
       ContentStatus contentStatus = ContentStatus.loaded,
-      List<Movie> history = const []}) {
+      List<Movie> history = const [],
+      HomeNav nav = HomeNav.none}) {
     return _HomeState(
       searchResult: searchResult,
       contentStatus: contentStatus,
       history: history,
+      nav: nav,
     );
   }
 }
@@ -36,6 +38,7 @@ mixin _$HomeState {
   List<Movie> get searchResult => throw _privateConstructorUsedError;
   ContentStatus get contentStatus => throw _privateConstructorUsedError;
   List<Movie> get history => throw _privateConstructorUsedError;
+  HomeNav get nav => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $HomeStateCopyWith<HomeState> get copyWith =>
@@ -49,7 +52,8 @@ abstract class $HomeStateCopyWith<$Res> {
   $Res call(
       {List<Movie> searchResult,
       ContentStatus contentStatus,
-      List<Movie> history});
+      List<Movie> history,
+      HomeNav nav});
 
   $ContentStatusCopyWith<$Res> get contentStatus;
 }
@@ -67,6 +71,7 @@ class _$HomeStateCopyWithImpl<$Res> implements $HomeStateCopyWith<$Res> {
     Object? searchResult = freezed,
     Object? contentStatus = freezed,
     Object? history = freezed,
+    Object? nav = freezed,
   }) {
     return _then(_value.copyWith(
       searchResult: searchResult == freezed
@@ -81,6 +86,10 @@ class _$HomeStateCopyWithImpl<$Res> implements $HomeStateCopyWith<$Res> {
           ? _value.history
           : history // ignore: cast_nullable_to_non_nullable
               as List<Movie>,
+      nav: nav == freezed
+          ? _value.nav
+          : nav // ignore: cast_nullable_to_non_nullable
+              as HomeNav,
     ));
   }
 
@@ -101,7 +110,8 @@ abstract class _$HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
   $Res call(
       {List<Movie> searchResult,
       ContentStatus contentStatus,
-      List<Movie> history});
+      List<Movie> history,
+      HomeNav nav});
 
   @override
   $ContentStatusCopyWith<$Res> get contentStatus;
@@ -121,6 +131,7 @@ class __$HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
     Object? searchResult = freezed,
     Object? contentStatus = freezed,
     Object? history = freezed,
+    Object? nav = freezed,
   }) {
     return _then(_HomeState(
       searchResult: searchResult == freezed
@@ -135,6 +146,10 @@ class __$HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
           ? _value.history
           : history // ignore: cast_nullable_to_non_nullable
               as List<Movie>,
+      nav: nav == freezed
+          ? _value.nav
+          : nav // ignore: cast_nullable_to_non_nullable
+              as HomeNav,
     ));
   }
 }
@@ -145,7 +160,8 @@ class _$_HomeState with DiagnosticableTreeMixin implements _HomeState {
   _$_HomeState(
       {this.searchResult = const [],
       this.contentStatus = ContentStatus.loaded,
-      this.history = const []});
+      this.history = const [],
+      this.nav = HomeNav.none});
 
   @JsonKey(defaultValue: const [])
   @override
@@ -156,10 +172,13 @@ class _$_HomeState with DiagnosticableTreeMixin implements _HomeState {
   @JsonKey(defaultValue: const [])
   @override
   final List<Movie> history;
+  @JsonKey(defaultValue: HomeNav.none)
+  @override
+  final HomeNav nav;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'HomeState(searchResult: $searchResult, contentStatus: $contentStatus, history: $history)';
+    return 'HomeState(searchResult: $searchResult, contentStatus: $contentStatus, history: $history, nav: $nav)';
   }
 
   @override
@@ -169,7 +188,8 @@ class _$_HomeState with DiagnosticableTreeMixin implements _HomeState {
       ..add(DiagnosticsProperty('type', 'HomeState'))
       ..add(DiagnosticsProperty('searchResult', searchResult))
       ..add(DiagnosticsProperty('contentStatus', contentStatus))
-      ..add(DiagnosticsProperty('history', history));
+      ..add(DiagnosticsProperty('history', history))
+      ..add(DiagnosticsProperty('nav', nav));
   }
 
   @override
@@ -183,7 +203,10 @@ class _$_HomeState with DiagnosticableTreeMixin implements _HomeState {
                 const DeepCollectionEquality()
                     .equals(other.contentStatus, contentStatus)) &&
             (identical(other.history, history) ||
-                const DeepCollectionEquality().equals(other.history, history)));
+                const DeepCollectionEquality()
+                    .equals(other.history, history)) &&
+            (identical(other.nav, nav) ||
+                const DeepCollectionEquality().equals(other.nav, nav)));
   }
 
   @override
@@ -191,7 +214,8 @@ class _$_HomeState with DiagnosticableTreeMixin implements _HomeState {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(searchResult) ^
       const DeepCollectionEquality().hash(contentStatus) ^
-      const DeepCollectionEquality().hash(history);
+      const DeepCollectionEquality().hash(history) ^
+      const DeepCollectionEquality().hash(nav);
 
   @JsonKey(ignore: true)
   @override
@@ -203,7 +227,8 @@ abstract class _HomeState implements HomeState {
   factory _HomeState(
       {List<Movie> searchResult,
       ContentStatus contentStatus,
-      List<Movie> history}) = _$_HomeState;
+      List<Movie> history,
+      HomeNav nav}) = _$_HomeState;
 
   @override
   List<Movie> get searchResult => throw _privateConstructorUsedError;
@@ -211,6 +236,8 @@ abstract class _HomeState implements HomeState {
   ContentStatus get contentStatus => throw _privateConstructorUsedError;
   @override
   List<Movie> get history => throw _privateConstructorUsedError;
+  @override
+  HomeNav get nav => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$HomeStateCopyWith<_HomeState> get copyWith =>

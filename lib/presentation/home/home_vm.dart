@@ -51,8 +51,15 @@ class HomeViewModel extends BaseVM<HomeState> {
     }
   }
 
+  void loadMovieDetails(int position) {
+    final it = state;
+    setState((s) => s.copyWith(nav: HomeNav.details));
+  }
+
   @override
-  void resetEffects() {}
+  void resetEffects() {
+    setStateOnly((s) => s.copyWith(nav: HomeNav.none));
+  }
 }
 
 @freezed
@@ -61,5 +68,8 @@ class HomeState with _$HomeState {
     @Default([]) List<Movie> searchResult,
     @Default(ContentStatus.loaded) ContentStatus contentStatus,
     @Default([]) List<Movie> history,
+    @Default(HomeNav.none) HomeNav nav,
   }) = _HomeState;
 }
+
+enum HomeNav { none, details }

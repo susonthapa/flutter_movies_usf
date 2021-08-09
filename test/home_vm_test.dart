@@ -115,5 +115,13 @@ void main() {
       // verify no new state is emitted
       tester.emitsItemCount(3);
     });
+
+    vmTest('when movie click navigate to movie details', () async {
+      vm.searchMovie('query');
+      await tester.wait();
+      vm.loadMovieDetails(0);
+      tester.emitsItemCount(3);
+      tester.emitsItemAt(2, (s) => equalsValue(HomeNav.details, s.nav));
+    });
   });
 }
