@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:movies_usf/di/injection.dart';
+import 'package:movies_usf/presentation/theme/theme.dart';
 import 'package:movies_usf/router/back_button_dispatcher.dart';
 import 'package:movies_usf/router/route_parser.dart';
 import 'package:movies_usf/router/router_delegate.dart';
@@ -52,9 +53,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Movies USF',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: appTheme,
       routerDelegate: delegate,
       routeInformationParser: parser,
       backButtonDispatcher: backButtonDispatcher,

@@ -6,6 +6,7 @@ import 'package:movies_usf/di/injection.dart';
 import 'package:movies_usf/domain/content_status.dart';
 import 'package:movies_usf/domain/movie.dart';
 import 'package:movies_usf/presentation/common/navigation.dart';
+import 'package:movies_usf/presentation/theme/colors.dart';
 import 'package:movies_usf/router/router_vm.dart';
 import 'package:movies_usf/router/ui_pages.dart';
 
@@ -30,6 +31,20 @@ Widget roundButton(IconData icon, Function onPressed) {
       padding: EdgeInsets.all(8),
     ),
     child: Icon(icon),
+  );
+}
+
+Widget imageLoading(String url) {
+  return Image.network(
+    url,
+    loadingBuilder: (context, child, progress) {
+      if (progress == null) {
+        return child;
+      }
+      return Container(
+        color: Theme.of(context).disabledColor,
+      );
+    },
   );
 }
 
@@ -117,6 +132,7 @@ class HomePage extends HookWidget {
                     children: [
                       Divider(
                         height: 1,
+                        color: AppColors.onSurfaceEmphasisMedium,
                       ),
                       SizedBox(
                         height: 116,
@@ -152,9 +168,7 @@ class HistoryItemWidget extends StatelessWidget {
       height: 108,
       width: 108,
       padding: EdgeInsets.all(8),
-      child: Image.network(
-        movie.image,
-      ),
+      child: imageLoading(movie.image),
     );
   }
 }
@@ -178,7 +192,7 @@ class MoviesItemWidget extends StatelessWidget {
           SizedBox(
             width: 100,
             height: 100,
-            child: Image.network(movie.image),
+            child: imageLoading(movie.image),
           ),
           SizedBox(
             width: 16,
