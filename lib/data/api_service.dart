@@ -10,7 +10,9 @@ abstract class ApiService {
 
   @GET('/')
   Stream<SearchResponse> getMovies(
+    // name of the movie that you want to search
     @Query('s') String name,
+    // api key for omDB
     @Query('apiKey') String apiKey,
   );
 }

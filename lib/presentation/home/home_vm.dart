@@ -15,21 +15,26 @@ class HomeViewModel extends BaseVM<HomeState> {
   final MoviesRepository repo;
 
   HomeViewModel(this.repo) : super(HomeState()) {
+    // create default state
     setState((s) => HomeState());
   }
 
+  // function to search query
   void searchMovie(String query) {
     if (query.isEmpty) {
       return;
     }
     bag.add(repo.getMoviesFromServer(query).listen((movies) {
       movies.when(
+        // loading set our content status
         loading: () =>
             setState((s) => s.copyWith(contentStatus: ContentStatus.loading)),
+        // we have content set to our state
         content: (content) => setState((s) => s.copyWith(
               searchResult: content,
               contentStatus: ContentStatus.loaded,
             )),
+        // we have error, handle it
         error: (error) => setState(
           (s) => s.copyWith(
               searchResult: [], contentStatus: ContentStatus.error(error)),
@@ -38,12 +43,14 @@ class HomeViewModel extends BaseVM<HomeState> {
     }));
   }
 
+  // add movie to our history list
   void addMovieToHistory(int position) {
     final it = state;
     var currentMovie = it.searchResult[position];
     var isNotInHistory =
         it.history.firstWhereOrNull((movie) => movie.id == currentMovie.id) ==
             null;
+    // only add the movie if it's not already in our history
     if (isNotInHistory) {
       final newHistory = List<Movie>.from(it.history);
       newHistory.add(currentMovie);
@@ -62,6 +69,7 @@ class HomeViewModel extends BaseVM<HomeState> {
 
   @override
   void resetEffects() {
+    // reset our navigation so that we don't trigger it by accident
     setStateOnly((s) => s.copyWith(nav: HomeNavArgs()));
   }
 }

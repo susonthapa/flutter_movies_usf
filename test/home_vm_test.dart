@@ -12,16 +12,16 @@ import 'home_vm_test.mocks.dart';
 import 'test_change_provider.dart';
 import 'test_utils.dart';
 
-class Listener extends Mock {
-  void call(HomeState value);
-}
-
 @GenerateMocks([MoviesRepository])
 void main() {
+  // represents repository LCE state
   late bool isSuccess;
+  // mock our repository
   var repo = MockMoviesRepository();
   late HomeViewModel vm;
-  late TestChangeProvider<HomeState> tester;
+  // test provider
+  late TestChangeNotifier<HomeState> tester;
+  // our response
   final movies = [
     Movie(
       id: '221',
@@ -54,12 +54,14 @@ void main() {
   ];
 
   group('home vm tests', () {
+    // setup our tester and vm
     setUp(() {
       isSuccess = true;
       vm = HomeViewModel(repo);
-      tester = TestChangeProvider(vm);
+      tester = TestChangeNotifier(vm);
     });
 
+    // dispose our vm
     tearDown(() {
       vm.dispose();
     });
@@ -67,8 +69,10 @@ void main() {
     // mock data
     when(repo.getMoviesFromServer(any)).thenAnswer((realInvocation) {
       if (isSuccess) {
+        // return loading and content
         return Stream.value(Lce.content(movies)).startWith(Lce.loading());
       } else {
+        // return loading and error
         return Stream<Lce<List<Movie>>>.value(Lce.error('something went wrong'))
             .startWith(Lce.loading());
       }
@@ -84,14 +88,14 @@ void main() {
       ]);
     });
 
-    vmTest('when movie is searched and query is empty then no search',
+    vmTest('when movie searched and query is empty then no search result',
         () async {
       vm.searchMovie('');
-      await Future<void>.value();
+      await tester.wait();
       tester.emitsItemCount(0);
     });
 
-    vmTest('when move is searched and api error then show error', () async {
+    vmTest('when move searched and api error then show error', () async {
       isSuccess = false;
       vm.searchMovie('query');
       await tester.wait();

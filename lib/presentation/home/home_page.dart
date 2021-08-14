@@ -1,3 +1,4 @@
+import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -55,6 +56,7 @@ class HomePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    Fimber.d('building home page');
     final searchController = useTextEditingController();
     return Scaffold(
       appBar: AppBar(
@@ -71,88 +73,118 @@ class HomePage extends HookWidget {
             );
           }
         },
-        child: Consumer(
-          builder: (context, watch, child) {
-            final state = watch(_homeVMProvider).state;
-            return Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.only(left: 16, right: 16, top: 16),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          controller: searchController,
-                          decoration: InputDecoration(
-                            hintText: "Search movies",
-                          ),
-                        ),
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.only(left: 16, right: 16, top: 16),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: searchController,
+                      decoration: InputDecoration(
+                        hintText: 'Search movies',
                       ),
-                      SizedBox(
-                        width: 16,
-                      ),
-                      roundButton(Icons.search, () {
-                        _vm(context).searchMovie(searchController.text);
-                      }),
-                    ],
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 4,
-                ),
-                Visibility(
-                  visible: state.contentStatus.status == DataStatus.loading,
-                  child: LinearProgressIndicator(),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemBuilder: (context, position) {
-                      return InkWell(
-                        onTap: () {
-                          _vm(context).loadMovieDetails(position);
-                        },
-                        child: MoviesItemWidget(
-                          movie: state.searchResult[position],
-                          onPressed: () {
-                            _vm(context).addMovieToHistory(position);
-                          },
-                        ),
-                      );
-                    },
-                    itemCount: state.searchResult.length,
+                  SizedBox(
+                    width: 16,
                   ),
-                ),
-                Visibility(
-                  visible: state.history.length != 0,
-                  child: Column(
-                    children: [
-                      Divider(
-                        height: 1,
-                        color: AppColors.onSurfaceEmphasisMedium,
-                      ),
-                      SizedBox(
-                        height: 116,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, position) {
-                            return HistoryItemWidget(
-                                movie: state.history[position]);
-                          },
-                          itemCount: state.history.length,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            );
-          },
+                  roundButton(Icons.search, () {
+                    _vm(context).searchMovie(searchController.text);
+                  }),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 4,
+            ),
+            _ProgressIndicator(),
+            SizedBox(
+              height: 8,
+            ),
+            Expanded(
+              child: _MovieListWidget(
+                onItemClick: (position) =>
+                    _vm(context).loadMovieDetails(position),
+                onAddClick: (position) =>
+                    _vm(context).addMovieToHistory(position),
+              ),
+            ),
+            HistoryListWidget(),
+          ],
         ),
       ),
+    );
+  }
+}
+
+class HistoryListWidget extends HookWidget {
+  @override
+  Widget build(BuildContext context) {
+    Fimber.d('building history list');
+    final history =
+        useProvider(_homeVMProvider.select((value) => value.state.history));
+    return Visibility(
+      visible: history.length != 0,
+      child: Column(
+        children: [
+          Divider(
+            height: 1,
+            color: AppColors.onSurfaceEmphasisMedium,
+          ),
+          SizedBox(
+            height: 116,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, position) {
+                return HistoryItemWidget(movie: history[position]);
+              },
+              itemCount: history.length,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MovieListWidget extends HookWidget {
+  final Function(int) onItemClick;
+  final Function(int) onAddClick;
+
+  _MovieListWidget({required this.onItemClick, required this.onAddClick});
+
+  @override
+  Widget build(BuildContext context) {
+    Fimber.d("building movies list widget");
+    final searchResult = useProvider(
+        _homeVMProvider.select((value) => value.state.searchResult));
+    return ListView.builder(
+      itemBuilder: (context, position) {
+        return InkWell(
+          onTap: () => onItemClick(position),
+          child: MoviesItemWidget(
+            movie: searchResult[position],
+            onPressed: () => onAddClick(position),
+          ),
+        );
+      },
+      itemCount: searchResult.length,
+    );
+  }
+}
+
+class _ProgressIndicator extends HookWidget {
+  @override
+  Widget build(BuildContext context) {
+    Fimber.d('building progress indicator');
+    final contentStatus = useProvider(
+        _homeVMProvider.select((value) => value.state.contentStatus));
+    return Visibility(
+      visible: contentStatus.status == DataStatus.loading,
+      child: LinearProgressIndicator(),
     );
   }
 }

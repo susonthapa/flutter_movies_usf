@@ -16,18 +16,21 @@ class MoviesRepository {
 
   Stream<Lce<List<Movie>>> getMoviesFromServer(String query) {
     return api
-        .getMovies(query, dotenv.env['API_KEY'] ?? '',)
+        .getMovies(query, dotenv.env['API_KEY'] ?? '',) // store api key in secure location
         .map<Lce<List<Movie>>>((response) {
       if (response.response == "True") {
+        // convert data layer response to our domain layer model
         final movies = _convertSearchResponse(response.movies);
         return Lce.content(movies);
       } else {
+        // return error
         return Lce.error(response.error);
       }
     }).onErrorReturnWith((error, stackTrace) {
+      // handle any network layer error
       Fimber.e(error.toString());
       return Lce.error(error.toString());
-    }).startWith(Lce.loading());
+    }).startWith(Lce.loading()); // indicate that we are currently loading data
   }
 
   List<Movie> _convertSearchResponse(List<Search> response) {
