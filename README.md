@@ -1,16 +1,12 @@
-# movies_usf
+# Movies USF
 
-Simple movies app for searching movies
+A sample implementation of Unidirectional State Flow architecture for flutter
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Add .env file in your project's root directory with the OMDb API key like below
+```
+API_KEY='your_key'
+```
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Here is the [link](https://susuthapa19961227.medium.com/yet-another-unidirectional-state-flow-architecture-for-flutter-53d26f7330fd) to the full blog post.
